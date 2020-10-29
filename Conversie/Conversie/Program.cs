@@ -15,10 +15,38 @@ namespace Conversie
             Console.WriteLine("Restrictii si precizari: bazele sunt cuprinse intre 2 si 16. Numerele sunt pozitive si pot fi cu virgula.");
 
             /// Input
-            Console.Write("Incepe prin a introduce numarul tau: ");
-            string inputNumber = Console.ReadLine();
+            bool ok = true;
+            string inputNumber="";
+            int puncte = 0;
+            do
+            {
+                try
+                {
+                    Console.Write("Incepe prin a introduce numarul tau: ");
+                    inputNumber = Console.ReadLine();
+                    if ((inputNumber[0] < 48 || inputNumber[0] > 57) && (inputNumber[0] < 65 || inputNumber[0] > 70) && inputNumber[0]!=45)
+                        throw new Exception();
+                    for (int i = 1; i < inputNumber.Length; i++)
+                    {
+                        if (inputNumber[i] == 46 && puncte==0)
+                            puncte++; 
+                        else if(inputNumber[i] == 46 && puncte>1)
+                            throw new Exception();
+                        if ((inputNumber[i] < 48 || inputNumber[i] > 57) && (inputNumber[i] < 65 ||  inputNumber[i] > 70) && inputNumber[i]!=46 )
+                            throw new Exception();
+                    }
+                    ok = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("!!!!!Nu ai introdus un numar scris intr-o baza intre 2 si 16!!!!!");
+                    Console.WriteLine("Mai incearca.");
+                    ok = false;
+                }
+            } while (!ok);
+
             int bazaInitiala = 0;
-            bool okay = true;
+            bool ok2 = true;
             do
             {
                 try
@@ -29,20 +57,34 @@ namespace Conversie
                     {
                         throw new Exception();
                     }
-                    okay = true;
+                    ok2 = true;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Baza este inafara intervalului");
-                    okay = false;
+                    Console.WriteLine("!!!!!Baza este in afara intervalului!!!!!");
+                    ok2 = false;
                 }
-            } while (!okay);
-            
-            
+            } while (!ok2);
 
+            int bazaFinala = 0;
+            bool ok3 = true;
+            do
+            {
+                try
+                {
+                    Console.Write("Si in final, baza in care vrei sa fie convertit numarul tau: ");
+                    bazaFinala = int.Parse(Console.ReadLine());
+                    if (bazaFinala < 2 || bazaFinala > 16)
+                        throw new Exception();
+                    ok3 = true;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine("!!!!!Baza este in afara intervalului!!!!!");
+                    ok3 = false;
+                }
+            } while (!ok3);
 
-            Console.Write("Si in final, baza in care vrei sa fie convertit numarul tau: ");
-            int bazaFinala = int.Parse(Console.ReadLine());
 
             /// Impartim sirul citit in doua siruri 
             string[] splitNumbers = inputNumber.Split('.');
