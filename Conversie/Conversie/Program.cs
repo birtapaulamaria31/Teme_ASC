@@ -18,32 +18,34 @@ namespace Conversie
             bool ok = true;
             string inputNumber="";
             int puncte = 0;
-            do
-            {
+
                 try
                 {
                     Console.Write("Incepe prin a introduce numarul tau: ");
                     inputNumber = Console.ReadLine();
-                    if ((inputNumber[0] < 48 || inputNumber[0] > 57) && (inputNumber[0] < 65 || inputNumber[0] > 70) && inputNumber[0]!=45)
-                        throw new Exception();
-                    for (int i = 1; i < inputNumber.Length; i++)
+
+                    for (int i = 0; i < inputNumber.Length; i++)
                     {
-                        if (inputNumber[i] == 46 && puncte==0)
+                        if (inputNumber[i] == 46)
                             puncte++; 
-                        else if(inputNumber[i] == 46 && puncte>1)
+                        
+                            
+                        else if ( !(inputNumber[i] >= 48 && inputNumber[i] <=57) && !(inputNumber[i] >= 65 &&  inputNumber[i] <= 70) )
                             throw new Exception();
-                        if ((inputNumber[i] < 48 || inputNumber[i] > 57) && (inputNumber[i] < 65 ||  inputNumber[i] > 70) && inputNumber[i]!=46 )
+                        if (puncte > 1)
                             throw new Exception();
+                 
                     }
-                    ok = true;
+ 
                 }
-                catch (Exception e)
+                catch (Exception e1)
                 {
                     Console.WriteLine("!!!!!Nu ai introdus un numar scris intr-o baza intre 2 si 16!!!!!");
-                    Console.WriteLine("Mai incearca.");
-                    ok = false;
-                }
-            } while (!ok);
+                    Console.WriteLine("Ruleaza programul din nou!");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+            }
+      
 
             int bazaInitiala = 0;
             bool ok2 = true;
@@ -59,7 +61,7 @@ namespace Conversie
                     }
                     ok2 = true;
                 }
-                catch (Exception e)
+                catch (Exception e2)
                 {
                     Console.WriteLine("!!!!!Baza este in afara intervalului!!!!!");
                     ok2 = false;
@@ -78,7 +80,7 @@ namespace Conversie
                         throw new Exception();
                     ok3 = true;
                 }
-                catch(Exception e)
+                catch(Exception e3)
                 {
                     Console.WriteLine("!!!!!Baza este in afara intervalului!!!!!");
                     ok3 = false;
@@ -92,15 +94,21 @@ namespace Conversie
             /// Convertim partea intreaga a numarului in baza 10
             int base_10 = StringToBase10(splitNumbers[0], bazaInitiala);
 
-            ///Convertim partea fractionara a numarului in baza 10
-            float base_10_fractional = FractionalStringToBase10(splitNumbers[1], bazaInitiala);
-
             /// Afisam partea intreaga a numarului final
             Base10ToFinal(base_10, bazaFinala);
-            ///Afisam partea fractionara
-            Console.Write(".");
-            FractionalBase10ToFinal(base_10_fractional, bazaFinala);
-            
+
+            ///Verificam daca avem parte fractionara
+            if(puncte==1)
+            {
+                ///Convertim partea fractionara a numarului in baza 10
+                float base_10_fractional = FractionalStringToBase10(splitNumbers[1], bazaInitiala);
+
+                ///Afisam partea fractionara
+                Console.Write(".");
+                FractionalBase10ToFinal(base_10_fractional, bazaFinala);
+
+            }
+
             Console.ReadKey();
         }
 
@@ -176,7 +184,6 @@ namespace Conversie
                 n = n * baza;
                 Console.Write(HEX[(int)n]);
                 n = n - (int)n;
-                //n = (n * baza - (int)(n * baza))*baza;
             }
         }
 
