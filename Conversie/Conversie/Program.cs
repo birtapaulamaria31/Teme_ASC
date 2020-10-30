@@ -27,14 +27,11 @@ namespace Conversie
                     for (int i = 0; i < inputNumber.Length; i++)
                     {
                         if (inputNumber[i] == 46)
-                            puncte++; 
-                        
-                            
-                        else if ( !(inputNumber[i] >= 48 && inputNumber[i] <=57) && !(inputNumber[i] >= 65 &&  inputNumber[i] <= 70) )
+                            puncte++;
+                        else if (!(inputNumber[i] >= 48 && inputNumber[i] <= 57) && !(inputNumber[i] >= 65 && inputNumber[i] <= 70))
                             throw new Exception();
-                        if (puncte > 1)
-                            throw new Exception();
-                 
+                            if (puncte > 1)
+                                throw new Exception();
                     }
  
                 }
